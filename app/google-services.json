@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "73720423437",
-    "firebase_url": "https://app-compra-y-venta-4532b-default-rtdb.firebaseio.com",
-    "project_id": "app-compra-y-venta-4532b",
-    "storage_bucket": "app-compra-y-venta-4532b.appspot.com"
+    "project_number": "946431828935",
+    "firebase_url": "https://marketplaceapp-us-default-rtdb.firebaseio.com",
+    "project_id": "marketplaceapp-us",
+    "storage_bucket": "marketplaceapp-us.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:73720423437:android:51e13ddb58584c33ba6144",
+        "mobilesdk_app_id": "1:946431828935:android:3a53e919b1859865486fe2",
         "android_client_info": {
-          "package_name": "com.redsystemstudio.appcomprayventa"
+          "package_name": "com.example.marketplaceapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "73720423437-8buf9cafn2bg3b9bjhapm4kibqlcerqo.apps.googleusercontent.com",
+          "client_id": "946431828935-8jk9ok8ngejace9fed8hae25jf7db82p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.redsystemstudio.appcomprayventa",
-            "certificate_hash": "75fe4fd3342fe2b09b011d9e059551489c4db3a5"
+            "package_name": "com.example.marketplaceapp",
+            "certificate_hash": "3ea7e212b21d44a32c76d3fc99720b4dda64f7ed"
           }
         },
         {
-          "client_id": "73720423437-rtp0s6ue6kpl890t1gi9888pr24kbgp9.apps.googleusercontent.com",
+          "client_id": "946431828935-1g4pq3s4qaaqnh1pslojb0mljpvol4pl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKP_WIOIOwPZmS54-0zGO3H8jMwKA9ACE"
+          "current_key": "AIzaSyBAO0U9X3R-5Ex1MfRXmeK9-RzjnxVAyS8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "73720423437-rtp0s6ue6kpl890t1gi9888pr24kbgp9.apps.googleusercontent.com",
+              "client_id": "946431828935-1g4pq3s4qaaqnh1pslojb0mljpvol4pl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.redsystemstudio.appcomprayventa"
+    namespace = "com.example.marketplaceapp"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.redsystemstudio.appcomprayventa"
+        applicationId = "com.example.marketplaceapp"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
