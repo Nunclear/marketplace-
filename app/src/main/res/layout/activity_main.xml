@@ -5,31 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
+    <!-- Improved toolbar with better elevation and spacing -->
     <RelativeLayout
         android:id="@+id/ToolbarRl"
-        android:background="@color/mi_color"
+        android:background="@color/primary_500"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/m_toolbar_height">
+        android:layout_height="@dimen/m_toolbar_height"
+        android:elevation="4dp">
 
         <TextView
             android:id="@+id/TituloRl"
             android:text="@string/TituloRl"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_inverse"
             android:textStyle="bold"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_size_h3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-medium"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ccc"
-            android:layout_alignParentBottom="true"/>
-
-
+        <!-- Replaced thin divider with subtle elevation -->
     </RelativeLayout>
 
     <FrameLayout
@@ -37,32 +35,35 @@
         android:layout_below="@id/ToolbarRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/View1"/>
+        android:layout_above="@+id/BottomNV"
+        android:background="@color/background"/>
 
-    <View
-        android:id="@+id/View1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ccc"
-        android:layout_above="@+id/BottomNV"/>
-
+    <!-- Bottom navigation styling -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/BottomNV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/surface"
+        android:elevation="8dp"
         app:menu="@menu/mi_menu"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled"
+        app:itemTextColor="@color/text_secondary"
+        app:itemIconTint="@color/text_secondary"/>
 
+    <!-- Improved FAB with better positioning and elevation -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/FAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@android:color/white"
-        android:backgroundTint="@color/mi_color"
+        app:tint="@color/text_inverse"
+        android:backgroundTint="@color/accent_500"
         android:src="@drawable/ic_agregar"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="50dp"
+        android:elevation="6dp"
+        app:fabSize="normal"
+        app:borderWidth="0dp"/>
 
 </RelativeLayout>

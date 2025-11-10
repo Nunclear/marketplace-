@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">App Compra y Venta</string>
+    <string name="app_name">Marketplace</string>
 
-    <string name="mi_google_maps_api_key">Copias aqui tu key</string>
+    <string name="mi_google_maps_api_key">AIzaSyBXMQdNe7_G9Q22zrr1QP4XzoJznUNsUnY</string>
     <string name="default_web_client_id">Copias aqui tu client id</string>
 
     <string name="Item_Inicio">Inicio</string>

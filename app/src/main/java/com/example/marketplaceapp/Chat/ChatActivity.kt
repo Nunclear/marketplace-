@@ -90,7 +90,11 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@ChatActivity,
+                        "Error al cargar información: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -120,7 +124,11 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@ChatActivity,
+                        "Error al cargar mensajes: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -166,7 +174,11 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@ChatActivity,
+                        "Error al cargar información del vendedor: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -360,34 +372,36 @@ class ChatActivity : AppCompatActivity() {
         }catch (e: Exception){
 
         }
-        
+
         enviarNotificacion(notificationJo)
     }
 
     private fun enviarNotificacion(notificationJo: JSONObject) {
         val jsonObjectRequest : JsonObjectRequest = object  : JsonObjectRequest(
             Method.POST,
-            "https://fcm.googleapis.com/fcm/send",
+            Constantes.BACKEND_NOTIFICATION_URL, // Usar el nuevo endpoint del backend
             notificationJo,
             Response.Listener {
-                //Notificación enviada
+                //Notificación enviada exitosamente
             },
             Response.ErrorListener { e->
-                //Notificación no se envió
+                //Error al enviar notificación
+                Toast.makeText(
+                    this,
+                    "Error al enviar notificación: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Content-Type"] = "application/json"
-                headers["Authorization"] = "key=${Constantes.FCM_SERVER_KEY}"
                 return headers
             }
         }
 
         Volley.newRequestQueue(this).add(jsonObjectRequest)
-
     }
-
 
     private fun actualizarEstado(estado : String){
         val ref = FirebaseDatabase.getInstance().reference.child("Usuarios").child(firebaseAuth.uid!!)

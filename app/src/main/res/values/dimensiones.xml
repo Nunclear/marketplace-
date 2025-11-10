@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Expanded dimension system for responsive design -->
+    
+    <!-- Toolbar -->
+    <dimen name="m_toolbar_height">64dp</dimen>
+    <dimen name="toolbar_padding">16dp</dimen>
+    <dimen name="toolbar_icon_size">24dp</dimen>
 
-    <dimen name="m_toolbar_height">55dp</dimen>
-    <dimen name="m_button_height">60dp</dimen>
+    <!-- Buttons -->
+    <dimen name="m_button_height">56dp</dimen>
+    <dimen name="button_padding_horizontal">16dp</dimen>
+    <dimen name="button_padding_vertical">12dp</dimen>
 
+    <!-- Cards & Containers -->
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
+    <dimen name="card_spacing">8dp</dimen>
+
+    <!-- Spacing Scale -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">12dp</dimen>
+    <dimen name="spacing_lg">16dp</dimen>
+    <dimen name="spacing_xl">20dp</dimen>
+    <dimen name="spacing_2xl">24dp</dimen>
+
+    <!-- Text -->
+    <dimen name="text_size_h1">28sp</dimen>
+    <dimen name="text_size_h2">24sp</dimen>
+    <dimen name="text_size_h3">20sp</dimen>
+    <dimen name="text_size_body">16sp</dimen>
+    <dimen name="text_size_body_small">14sp</dimen>
+    <dimen name="text_size_caption">12sp</dimen>
+    <dimen name="text_size_label">11sp</dimen>
+
+    <!-- Icons -->
+    <dimen name="icon_size_small">20dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_large">32dp</dimen>
+
+    <!-- Images -->
+    <dimen name="image_height_small">120dp</dimen>
+    <dimen name="image_height_medium">160dp</dimen>
+    <dimen name="image_height_large">200dp</dimen>
+
+    <!-- Common -->
+    <dimen name="content_max_width">600dp</dimen>
+    <dimen name="screen_edge_margin">16dp</dimen>
 </resources>

@@ -193,7 +193,11 @@ class FragmentInicio : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(
+                    context,
+                    "Error al cargar anuncios: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

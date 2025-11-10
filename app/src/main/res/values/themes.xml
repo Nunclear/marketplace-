@@ -1,9 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AppCompraYVenta" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/mi_color</item>
+    <!-- Light mode theme for Material Design 2 -->
+    <!-- Changed to correct Material Design 2 theme base -->
+    <style name="Base.Theme.AppMarketplace" parent="Theme.MaterialComponents.Light">
+
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/primary_500</item>
+        <item name="colorPrimaryDark">@color/primary_600</item>
+        <item name="colorAccent">@color/accent_500</item>
+
+        <!-- Material Components -->
+        <item name="colorSecondary">@color/accent_500</item>
+        <item name="colorSecondaryVariant">@color/accent_400</item>
+
+        <!-- Surface & Background -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorError">@color/error_500</item>
+
+        <!-- Text Colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <!-- Button Styling -->
+        <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
+
+        <!-- Hide action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.AppCompraYVenta" parent="Base.Theme.AppCompraYVenta" />
+    <style name="Theme.AppMarketplace" parent="Base.Theme.AppMarketplace" />
+
+    <!-- Material Button style for consistent button appearance -->
+    <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

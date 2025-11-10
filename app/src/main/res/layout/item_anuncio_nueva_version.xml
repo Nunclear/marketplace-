@@ -1,65 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:cardUseCompatPadding="true">
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardUseCompatPadding="true"
+    android:background="@color/surface"
+    app:strokeWidth="0dp">
 
+    <!-- Improved card layout with better spacing and hierarchy -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="@dimen/card_padding">
 
-        <ImageButton
-            android:id="@+id/Ib_fav"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_no_favorito"
-            android:padding="7dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <!-- Favorite Button -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <ImageButton
+                android:id="@+id/Ib_fav"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_no_favorito"
+                android:padding="@dimen/spacing_sm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/accent_500"
+                android:contentDescription="@string/Tv_titulo"/>
+
+        </FrameLayout>
+
+        <!-- Product Image -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imagenIv"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height_medium"
             android:src="@drawable/ic_imagen"
-            android:layout_gravity="center"
-            android:layout_marginTop="2dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="@dimen/spacing_md"
+            app:shapeAppearanceOverlay="@style/ImageStyle_Corners_Large"/>
 
+        <!-- Product Title -->
         <TextView
             android:id="@+id/Tv_titulo"
             android:text="@string/Tv_titulo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:maxLines="1"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_h3"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="@dimen/spacing_sm"/>
 
+        <!-- Product Description -->
         <TextView
             android:id="@+id/Tv_descripcion"
             android:text="@string/Tv_descripcion"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:maxLines="2"
-            android:textStyle="italic"/>
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_body_small"
+            android:textStyle="italic"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="@dimen/spacing_md"/>
 
+        <!-- Location -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
+            android:layout_marginBottom="@dimen/spacing_sm"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ico_direccion_item"/>
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:src="@drawable/ico_direccion_item"
+                android:tint="@color/text_tertiary"
+                android:contentDescription="@string/Tv_direccion"/>
 
             <TextView
                 android:id="@+id/Tv_direccion"
@@ -67,25 +92,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:layout_marginStart="3dp"
+                android:ellipsize="end"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:textSize="@dimen/text_size_caption"
+                android:textColor="@color/text_secondary"
                 android:textStyle="bold"/>
-
-
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- Date -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ico_fecha_item"/>
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:src="@drawable/ico_fecha_item"
+                android:tint="@color/text_tertiary"
+                android:contentDescription="@string/Tv_fecha"/>
 
             <TextView
                 android:id="@+id/Tv_fecha"
@@ -93,49 +121,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:layout_marginStart="3dp"
+                android:ellipsize="end"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:textSize="@dimen/text_size_caption"
+                android:textColor="@color/text_secondary"
                 android:textStyle="bold"/>
-
-
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <TextView
-            android:id="@+id/Tv_condicion"
-            android:text="@string/Tv_condicion"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+        <!-- Condition & Price Row -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
+            <!-- Changed gravity from "center_vertical|space_between" to "center_vertical" and added weightSum for proper spacing -->
             <TextView
-                android:text="@string/Tv_simbolo_precio"
+                android:id="@+id/Tv_condicion"
+                android:text="@string/Tv_condicion"
+                android:textSize="@dimen/text_size_body_small"
+                android:textStyle="bold"
+                android:textColor="@color/success_500"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:textSize="15sp"
-                android:layout_marginEnd="3dp"
-                android:textStyle="bold"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/Tv_precio"
                 android:text="@string/Tv_precio"
+                android:textSize="@dimen/text_size_body_small"
+                android:textStyle="bold"
+                android:textColor="@color/primary_500"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"/>
-
-
+                android:layout_height="wrap_content" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

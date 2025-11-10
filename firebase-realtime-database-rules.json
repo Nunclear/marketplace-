@@ -1,0 +1,43 @@
+{
+  "rules": {
+    "Usuarios": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "$uid === auth.uid",
+        "Favoritos": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "Comentarios": {
+          ".read": "auth != null",
+          "$comentario_id": {
+            ".write": "auth != null"
+          }
+        }
+      }
+    },
+    "Anuncios": {
+      ".read": "auth != null",
+      "$anuncio_id": {
+        ".write": "auth != null && (!data.exists() || data.child('uid').val() === auth.uid)",
+        "Imagenes": {
+          ".read": "auth != null",
+          "$imagen_id": {
+            ".write": "auth != null && (!root.child('Anuncios').child($anuncio_id).exists() || root.child('Anuncios').child($anuncio_id).child('uid').val() === auth.uid)"
+          }
+        },
+        "contadorVistas": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "Chats": {
+      "$chat_ruta": {
+        ".read": "auth != null && ($chat_ruta.contains(auth.uid))",
+        "$mensaje_id": {
+          ".write": "auth != null && ($chat_ruta.contains(auth.uid))"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "Usuarios": {
+    "ejemplo_uid_usuario_1": {
+      "nombres": "Juan Pérez",
+      "codigoTelefono": "+52",
+      "telefono": "5512345678",
+      "urlImagenPerfil": "https://example.com/perfil1.jpg",
+      "proveedor": "Email",
+      "escribiendo": "",
+      "tiempo": 1699564800000,
+      "estado": "online",
+      "email": "juan@example.com",
+      "uid": "ejemplo_uid_usuario_1",
+      "fecha_nac": "1990-01-15",
+      "fcmToken": "token_fcm_ejemplo_1",
+      "Favoritos": {
+        "ejemplo_id_anuncio_1": {
+          "id_anuncio": "ejemplo_id_anuncio_1",
+          "tiempo": 1699564900000
+        }
+      },
+      "Comentarios": {
+        "ejemplo_id_comentario_1": {
+          "id": "ejemplo_id_comentario_1",
+          "tiempo": "2024-11-09 10:30:00",
+          "uid": "ejemplo_uid_usuario_1",
+          "uid_vendedor": "ejemplo_uid_usuario_2",
+          "comentario": "Excelente producto, muy recomendado"
+        }
+      }
+    },
+    "ejemplo_uid_usuario_2": {
+      "nombres": "María García",
+      "codigoTelefono": "+52",
+      "telefono": "5598765432",
+      "urlImagenPerfil": "https://example.com/perfil2.jpg",
+      "proveedor": "Google",
+      "escribiendo": "",
+      "tiempo": 1699564850000,
+      "estado": "offline",
+      "email": "maria@example.com",
+      "uid": "ejemplo_uid_usuario_2",
+      "fecha_nac": "1995-05-20",
+      "fcmToken": "token_fcm_ejemplo_2",
+      "Favoritos": {},
+      "Comentarios": {}
+    }
+  },
+  "Anuncios": {
+    "ejemplo_id_anuncio_1": {
+      "id": "ejemplo_id_anuncio_1",
+      "uid": "ejemplo_uid_usuario_2",
+      "marca": "Samsung",
+      "categoria": "Electrónica",
+      "condicion": "Nuevo",
+      "direccion": "Ciudad de México, CDMX, México",
+      "precio": "15000",
+      "titulo": "Samsung Galaxy S23 Ultra",
+      "descripcion": "Smartphone de última generación, cámara de 200MP, 512GB de almacenamiento",
+      "estado": "Disponible",
+      "tiempo": 1699564800000,
+      "latitud": 19.432608,
+      "longitud": -99.133209,
+      "contadorVistas": 45,
+      "Imagenes": {
+        "1699564800001": {
+          "id": "1699564800001",
+          "imagenUrl": "https://example.com/anuncio1_img1.jpg"
+        },
+        "1699564800002": {
+          "id": "1699564800002",
+          "imagenUrl": "https://example.com/anuncio1_img2.jpg"
+        }
+      }
+    },
+    "ejemplo_id_anuncio_2": {
+      "id": "ejemplo_id_anuncio_2",
+      "uid": "ejemplo_uid_usuario_1",
+      "marca": "Apple",
+      "categoria": "Electrónica",
+      "condicion": "Usado",
+      "direccion": "Guadalajara, Jalisco, México",
+      "precio": "25000",
+      "titulo": "iPhone 14 Pro Max 256GB",
+      "descripcion": "iPhone en excelente estado, incluye cargador original y funda",
+      "estado": "Disponible",
+      "tiempo": 1699565000000,
+      "latitud": 20.676667,
+      "longitud": -103.347222,
+      "contadorVistas": 78,
+      "Imagenes": {
+        "1699565000001": {
+          "id": "1699565000001",
+          "imagenUrl": "https://example.com/anuncio2_img1.jpg"
+        }
+      }
+    },
+    "ejemplo_id_anuncio_3": {
+      "id": "ejemplo_id_anuncio_3",
+      "uid": "ejemplo_uid_usuario_2",
+      "marca": "Nike",
+      "categoria": "Deportes",
+      "condicion": "Nuevo",
+      "direccion": "Monterrey, Nuevo León, México",
+      "precio": "2500",
+      "titulo": "Tenis Nike Air Max 2024",
+      "descripcion": "Tenis deportivos talla 27, nuevos en caja",
+      "estado": "Vendido",
+      "tiempo": 1699565100000,
+      "latitud": 25.686614,
+      "longitud": -100.316113,
+      "contadorVistas": 120,
+      "Imagenes": {
+        "1699565100001": {
+          "id": "1699565100001",
+          "imagenUrl": "https://example.com/anuncio3_img1.jpg"
+        },
+        "1699565100002": {
+          "id": "1699565100002",
+          "imagenUrl": "https://example.com/anuncio3_img2.jpg"
+        },
+        "1699565100003": {
+          "id": "1699565100003",
+          "imagenUrl": "https://example.com/anuncio3_img3.jpg"
+        }
+      }
+    }
+  },
+  "Chats": {
+    "ejemplo_uid_usuario_1_ejemplo_uid_usuario_2": {
+      "mensaje_id_1": {
+        "idMensaje": "mensaje_id_1",
+        "tipoMensaje": "texto",
+        "mensaje": "Hola, ¿está disponible el Samsung Galaxy?",
+        "emisorUid": "ejemplo_uid_usuario_1",
+        "receptorUid": "ejemplo_uid_usuario_2",
+        "tiempo": 1699565200000
+      },
+      "mensaje_id_2": {
+        "idMensaje": "mensaje_id_2",
+        "tipoMensaje": "texto",
+        "mensaje": "Sí, está disponible. ¿Te interesa?",
+        "emisorUid": "ejemplo_uid_usuario_2",
+        "receptorUid": "ejemplo_uid_usuario_1",
+        "tiempo": 1699565300000
+      },
+      "mensaje_id_3": {
+        "idMensaje": "mensaje_id_3",
+        "tipoMensaje": "texto",
+        "mensaje": "Sí, ¿podemos vernos mañana?",
+        "emisorUid": "ejemplo_uid_usuario_1",
+        "receptorUid": "ejemplo_uid_usuario_2",
+        "tiempo": 1699565400000
+      },
+      "mensaje_id_4": {
+        "idMensaje": "mensaje_id_4",
+        "tipoMensaje": "imagen",
+        "mensaje": "https://example.com/chat_imagen1.jpg",
+        "emisorUid": "ejemplo_uid_usuario_2",
+        "receptorUid": "ejemplo_uid_usuario_1",
+        "tiempo": 1699565500000
+      },
+      "mensaje_id_5": {
+        "idMensaje": "mensaje_id_5",
+        "tipoMensaje": "texto",
+        "mensaje": "Perfecto, nos vemos a las 3pm",
+        "emisorUid": "ejemplo_uid_usuario_1",
+        "receptorUid": "ejemplo_uid_usuario_2",
+        "tiempo": 1699565600000
+      }
+    },
+    "ejemplo_uid_usuario_2_ejemplo_uid_usuario_1": {
+      "mensaje_id_6": {
+        "idMensaje": "mensaje_id_6",
+        "tipoMensaje": "texto",
+        "mensaje": "¿Aceptas cambios por tu iPhone?",
+        "emisorUid": "ejemplo_uid_usuario_2",
+        "receptorUid": "ejemplo_uid_usuario_1",
+        "tiempo": 1699565700000
+      },
+      "mensaje_id_7": {
+        "idMensaje": "mensaje_id_7",
+        "tipoMensaje": "texto",
+        "mensaje": "No por el momento, solo venta",
+        "emisorUid": "ejemplo_uid_usuario_1",
+        "receptorUid": "ejemplo_uid_usuario_2",
+        "tiempo": 1699565800000
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode color scheme -->
+    <!-- Primary Colors (adjusted for dark mode) -->
+    <color name="primary_600">#3399FF</color>
+    <color name="primary_500">#4DA6FF</color>
+    <color name="primary_400">#66B3FF</color>
+    <color name="primary_100">#1A2E5C</color>
+
+    <!-- Secondary/Accent Colors (adjusted for dark mode) -->
+    <color name="accent_500">#FF8A5B</color>
+    <color name="accent_400">#FFAA7F</color>
+    <color name="accent_100">#663420</color>
+
+    <!-- Neutral Colors -->
+    <color name="neutral_900">#F7FAFC</color>
+    <color name="neutral_800">#E2E8F0</color>
+    <color name="neutral_700">#CBD5E0</color>
+    <color name="neutral_600">#A0AEC0</color>
+    <color name="neutral_500">#718096</color>
+    <color name="neutral_400">#4A5568</color>
+    <color name="neutral_200">#2D3142</color>
+    <color name="neutral_100">#1A1E3F</color>
+    <color name="white">#0A0E27</color>
+
+    <!-- Status Colors -->
+    <color name="success_500">#6EE7B7</color>
+    <color name="success_100">#1F4D3B</color>
+    <color name="warning_500">#FCD34D</color>
+    <color name="warning_100">#5A4D1A</color>
+    <color name="error_500">#F87171</color>
+    <color name="error_100">#5C2626</color>
+
+    <!-- Semantic Aliases (dark) -->
+    <color name="background">#0A0E27</color>
+    <color name="background_secondary">#1A1E3F</color>
+    <color name="surface">#1A1E3F</color>
+    <color name="surface_variant">#2D3142</color>
+    <color name="border">#2D3142</color>
+    <color name="divider">#2D3142</color>
+    <color name="text_primary">#F7FAFC</color>
+    <color name="text_secondary">#CBD5E0</color>
+    <color name="text_tertiary">#718096</color>
+    <color name="text_inverse">#0A0E27</color>
+
+    <!-- Legacy compatibility -->
+    <color name="black">#FF000000</color>
+    <color name="mi_color">#3399FF</color>
+</resources>

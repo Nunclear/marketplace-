@@ -5,40 +5,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".OpcionesLogin">
 
+    <!-- Improved login layout with modern design and better spacing -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="30dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingStart="@dimen/spacing_2xl"
+        android:paddingEnd="@dimen/spacing_2xl"
+        android:paddingTop="@dimen/spacing_2xl"
+        android:paddingBottom="@dimen/spacing_2xl">
 
-        <ImageView
+        <!-- Logo/Icon -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:src="@drawable/email"
-            android:layout_width="60dp"
-            android:layout_height="80dp"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="@dimen/spacing_2xl"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/Ingresar_email"
+            app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
 
+        <!-- Email Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/Ingresar_email"
             android:text="@string/Ingresar_email"
-            android:textAllCaps="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m_button_height"
-            app:cornerRadius="8dp"/>
+            android:textSize="@dimen/text_size_body"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/spacing_lg"
+            app:cornerRadius="@dimen/card_corner_radius"
+            app:backgroundTint="@color/primary_500"
+            style="@style/Widget.MaterialComponents.Button"/>
 
-        <ImageView
+        <!-- Google Icon -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:src="@drawable/google"
-            android:layout_width="50dp"
-            android:layout_height="80dp"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="@dimen/spacing_2xl"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/Ingresar_google"
+            app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
 
+        <!-- Google Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/Ingresar_google"
             android:text="@string/Ingresar_google"
-            android:textAllCaps="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m_button_height"
-            app:cornerRadius="8dp"/>
+            android:textSize="@dimen/text_size_body"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/card_corner_radius"
+            app:backgroundTint="@color/accent_500"
+            style="@style/Widget.MaterialComponents.Button"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

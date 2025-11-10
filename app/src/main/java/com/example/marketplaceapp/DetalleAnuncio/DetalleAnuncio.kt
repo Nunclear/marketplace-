@@ -107,7 +107,7 @@ class DetalleAnuncio : AppCompatActivity() {
 
         binding.BtnLlamar.setOnClickListener {
             if (ContextCompat.checkSelfPermission(applicationContext,
-                android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+                    android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
                 val numTel = telVendedor
                 if (numTel.isEmpty()){
                     Toast.makeText(this@DetalleAnuncio,
@@ -124,7 +124,7 @@ class DetalleAnuncio : AppCompatActivity() {
 
         binding.BtnSms.setOnClickListener {
             if (ContextCompat.checkSelfPermission(applicationContext,
-                android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                    android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                 val numTel = telVendedor
                 if (numTel.isEmpty()){
                     Toast.makeText(this@DetalleAnuncio,
@@ -262,7 +262,11 @@ class DetalleAnuncio : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@DetalleAnuncio,
+                        "Error al cargar información del anuncio: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
 
@@ -341,7 +345,11 @@ class DetalleAnuncio : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@DetalleAnuncio,
+                        "Error al cargar información del vendedor: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
 
@@ -371,7 +379,11 @@ class DetalleAnuncio : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(
+                        this@DetalleAnuncio,
+                        "Error al cargar imágenes: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     }
@@ -393,7 +405,7 @@ class DetalleAnuncio : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // No se hace nada específico aquí para favoritos
                 }
             })
     }

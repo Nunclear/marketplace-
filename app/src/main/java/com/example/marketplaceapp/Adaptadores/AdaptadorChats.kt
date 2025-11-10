@@ -101,7 +101,7 @@ class AdaptadorChats : RecyclerView.Adapter<AdaptadorChats.HolderChats>, Filtera
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // No se hace nada específico aquí
                 }
             })
 
@@ -144,7 +144,7 @@ class AdaptadorChats : RecyclerView.Adapter<AdaptadorChats.HolderChats>, Filtera
 
                 }
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // No se hace nada específico aquí
                 }
             })
     }

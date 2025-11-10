@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -86,27 +87,12 @@ class FragmentChats : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(
+                    mContext,
+                    "Error al cargar chats: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
 }

@@ -1,7 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AppCompraYVenta" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/mi_color</item>
+    <!-- Dark mode theme customizations -->
+    <!-- Changed to correct Material Design 2 dark theme base -->
+    <style name="Base.Theme.AppMarketplace" parent="Theme.MaterialComponents">
+
+        <item name="colorPrimary">@color/primary_500</item>
+        <item name="colorPrimaryDark">@color/primary_600</item>
+        <item name="colorAccent">@color/accent_500</item>
+        <item name="colorSecondary">@color/accent_500</item>
+        <item name="colorSecondaryVariant">@color/accent_400</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorError">@color/error_500</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
+
+        <!-- Hide action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AppCompraYVenta" parent="Base.Theme.AppMarketplace" />
+
+    <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
