@@ -115,8 +115,9 @@ class AdaptadorAnuncio : RecyclerView.Adapter<AdaptadorAnuncio.HolderAnuncio>, F
                     }
                 }
 
+                // Error checking favorite status
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error checking favorite status
                 }
             })
 
@@ -142,8 +143,9 @@ class AdaptadorAnuncio : RecyclerView.Adapter<AdaptadorAnuncio.HolderAnuncio>, F
                     }
                 }
 
+                // Error loading ad image
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading ad image
                 }
             })
     }

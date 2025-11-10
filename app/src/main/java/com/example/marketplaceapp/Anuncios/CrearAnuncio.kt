@@ -22,9 +22,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.example.marketplaceapp.Adaptadores.AdaptadorImagenSeleccionada
 import com.example.marketplaceapp.Constantes
-import com.example.marketplaceapp.MainActivity
 import com.example.marketplaceapp.Modelo.ModeloImageSeleccionada
 import com.example.marketplaceapp.R
+import com.example.marketplaceapp.MainActivity
 import com.example.marketplaceapp.SeleccionarUbicacion
 import com.example.marketplaceapp.databinding.ActivityCrearAnuncioBinding
 
@@ -134,13 +134,17 @@ class CrearAnuncio : AppCompatActivity() {
                         }
 
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
+                            Toast.makeText(this@CrearAnuncio, 
+                                "Error al cargar imágenes: ${error.message}", 
+                                Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(this@CrearAnuncio, 
+                        "Error al cargar detalles: ${error.message}", 
+                        Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -184,20 +188,20 @@ class CrearAnuncio : AppCompatActivity() {
             binding.EtPrecio.requestFocus()
         }
         else if (titulo.isEmpty()){
-            binding.EtTitulo.error = "Ingrese un títuli"
+            binding.EtTitulo.error = "Ingrese un título"
             binding.EtTitulo.requestFocus()
         }
         else if (descripcion.isEmpty()){
             binding.EtDescripcion.error = "Ingrese una descripción"
             binding.EtDescripcion.requestFocus()
         }
-       else{
+        else{
             if (Edicion){
                 //True
                 actualizarAnuncio()
             }else{
                 //False
-                if (imagenUri == null){
+                if (imagenSelecArrayList.isEmpty()){
                     Toast.makeText(this,"Agregue al menos una imagen",Toast.LENGTH_SHORT).show()
                 }else{
                     agregarAnuncio()
@@ -290,6 +294,23 @@ class CrearAnuncio : AppCompatActivity() {
     }
 
     private fun cargarImagenesStorage(keyId : String) {
+        if (imagenSelecArrayList.isEmpty()) {
+            progressDialog.dismiss()
+            if (Edicion){
+                val intent = Intent(this@CrearAnuncio, MainActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(this, "Se actualizó la información del anuncio", Toast.LENGTH_SHORT).show()
+                finishAffinity()
+            } else {
+                Toast.makeText(this, "Se publicó su anuncio", Toast.LENGTH_SHORT).show()
+                limpiarCampos()
+            }
+            return
+        }
+
+        var imagenesSubidas = 0
+        val totalImagenes = imagenSelecArrayList.count { !it.deInternet }
+        
         for (i in imagenSelecArrayList.indices){
             val modeloImagenSel = imagenSelecArrayList[i]
 
@@ -315,29 +336,27 @@ class CrearAnuncio : AppCompatActivity() {
                                 .updateChildren(hashMap)
                         }
 
-                        if (Edicion){
+                        imagenesSubidas++
+                        if (imagenesSubidas >= totalImagenes) {
                             progressDialog.dismiss()
-                            val intent = Intent(this@CrearAnuncio, MainActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(this, "Se actualizó la información del anuncio", Toast.LENGTH_SHORT).show()
-                            finishAffinity()
-                        }else{
-                            progressDialog.dismiss()
-                            Toast.makeText(this, "Se publicó su anuncio", Toast.LENGTH_SHORT).show()
-                            limpiarCampos()
+                            if (Edicion){
+                                val intent = Intent(this@CrearAnuncio, MainActivity::class.java)
+                                startActivity(intent)
+                                Toast.makeText(this, "Se actualizó la información del anuncio", Toast.LENGTH_SHORT).show()
+                                finishAffinity()
+                            }else{
+                                Toast.makeText(this, "Se publicó su anuncio", Toast.LENGTH_SHORT).show()
+                                limpiarCampos()
+                            }
                         }
-
-
-
                     }
                     .addOnFailureListener {e->
+                        progressDialog.dismiss()
                         Toast.makeText(
-                            this, "${e.message}",Toast.LENGTH_SHORT
+                            this, "Error al cargar imagen: ${e.message}",Toast.LENGTH_SHORT
                         ).show()
                     }
             }
-
-
         }
     }
 

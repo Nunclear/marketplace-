@@ -76,8 +76,6 @@ class Mis_Anuncios_Publicados_Fragment : Fragment() {
         }
     }
 
-
-
     private fun cargarMisAnuncios() {
         anunciosArrayList = ArrayList()
 
@@ -101,27 +99,8 @@ class Mis_Anuncios_Publicados_Fragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading my ads
                 }
             })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 }

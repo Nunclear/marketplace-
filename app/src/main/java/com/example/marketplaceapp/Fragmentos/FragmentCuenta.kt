@@ -80,7 +80,7 @@ class FragmentCuenta : Fragment() {
         }
 
         binding.BtnEliminarCuenta.setOnClickListener {
-            startActivity(Intent(mContext, Eliminar_cuenta::class.java))
+             startActivity(Intent(mContext, Eliminar_cuenta::class.java))
         }
 
         binding.BtnCerrarSesion.setOnClickListener {
@@ -126,11 +126,7 @@ class FragmentCuenta : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    mContext,
-                    "Error al eliminar anuncios: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(mContext, "Error al eliminar anuncios: ${error.message}",Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -198,11 +194,7 @@ class FragmentCuenta : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        mContext,
-                        "Error al cargar información: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(mContext, "Error al cargar información: ${error.message}",Toast.LENGTH_SHORT).show()
                 }
             })
     }

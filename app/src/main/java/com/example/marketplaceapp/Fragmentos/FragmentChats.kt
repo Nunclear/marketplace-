@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,7 @@ import com.google.firebase.database.ValueEventListener
 import com.example.marketplaceapp.Adaptadores.AdaptadorChats
 import com.example.marketplaceapp.Modelo.ModeloChats
 import com.example.marketplaceapp.databinding.FragmentChatsBinding
-
+import android.util.Log
 
 class FragmentChats : Fragment() {
 
@@ -35,7 +34,6 @@ class FragmentChats : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         binding = FragmentChatsBinding.inflate(inflater,container, false)
         return binding.root
     }
@@ -44,7 +42,19 @@ class FragmentChats : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        miUid = "${firebaseAuth.uid}"
+        miUid = firebaseAuth.uid ?: ""
+        
+        if (miUid.isEmpty()) {
+            Log.e("FragmentChats", "Usuario no autenticado")
+            return
+        }
+        
+        Log.d("FragmentChats", "Iniciando FragmentChats con UID: $miUid")
+        
+        chatsArrayList = ArrayList()
+        adaptadorChats = AdaptadorChats(mContext, chatsArrayList)
+        binding.chatsRv.adapter = adaptadorChats
+        
         cargarChats()
 
         binding.EtBuscar.addTextChangedListener(object : TextWatcher{
@@ -57,7 +67,7 @@ class FragmentChats : Fragment() {
                     val consulta = filtro.toString()
                     adaptadorChats.filter.filter(consulta)
                 }catch (e:Exception){
-
+                    Log.e("FragmentChats", "Error al filtrar: ${e.message}")
                 }
             }
 
@@ -69,29 +79,50 @@ class FragmentChats : Fragment() {
     }
 
     private fun cargarChats() {
-        chatsArrayList = ArrayList()
+        Log.d("FragmentChats", "Iniciando carga de chats para UID: $miUid")
+        
         val ref = FirebaseDatabase.getInstance().getReference("Chats")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 chatsArrayList.clear()
+                
+                Log.d("FragmentChats", "Total de chats en Firebase: ${snapshot.childrenCount}")
+                
+                if (!snapshot.exists()) {
+                    Log.d("FragmentChats", "No hay chats disponibles")
+                    adaptadorChats.notifyDataSetChanged()
+                    return
+                }
+                
                 for (ds in snapshot.children){
-                    val chatKey = "${ds.key}" //uidemisor_uidreceptor
-                    if (chatKey.contains(miUid)){
-                        val modeloChats = ModeloChats()
-                        modeloChats.keyChat = chatKey
-                        chatsArrayList.add(modeloChats)
+                    try {
+                        val chatKey = ds.key ?: ""
+                        
+                        if (chatKey.isEmpty()) {
+                            continue
+                        }
+                        
+                        if (chatKey.contains(miUid)){
+                            if (ds.hasChildren()) {
+                                val modeloChats = ModeloChats()
+                                modeloChats.keyChat = chatKey
+                                chatsArrayList.add(modeloChats)
+                                Log.d("FragmentChats", "Chat agregado: $chatKey")
+                            } else {
+                                Log.d("FragmentChats", "Chat sin mensajes: $chatKey")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e("FragmentChats", "Error al procesar chat: ${e.message}", e)
                     }
                 }
-                adaptadorChats = AdaptadorChats(mContext, chatsArrayList)
-                binding.chatsRv.adapter = adaptadorChats
+                
+                adaptadorChats.notifyDataSetChanged()
+                Log.d("FragmentChats", "Total de chats cargados: ${chatsArrayList.size}")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    mContext,
-                    "Error al cargar chats: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Log.e("FragmentChats", "Error al cargar chats: ${error.message}")
             }
         })
     }

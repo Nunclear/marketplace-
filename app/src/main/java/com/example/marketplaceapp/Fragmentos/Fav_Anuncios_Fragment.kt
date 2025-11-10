@@ -102,8 +102,9 @@ class Fav_Anuncios_Fragment : Fragment() {
                                     }
                                 }
 
+                                // Error loading favorite ad details
                                 override fun onCancelled(error: DatabaseError) {
-                                    TODO("Not yet implemented")
+                                    // Error loading favorite ad details
                                 }
                             })
                     }
@@ -114,8 +115,9 @@ class Fav_Anuncios_Fragment : Fragment() {
                     }, 500)
                 }
 
+                // Error loading favorites
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading favorites
                 }
             })
     }

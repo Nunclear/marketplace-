@@ -107,7 +107,7 @@ class DetalleAnuncio : AppCompatActivity() {
 
         binding.BtnLlamar.setOnClickListener {
             if (ContextCompat.checkSelfPermission(applicationContext,
-                    android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+                android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
                 val numTel = telVendedor
                 if (numTel.isEmpty()){
                     Toast.makeText(this@DetalleAnuncio,
@@ -124,7 +124,7 @@ class DetalleAnuncio : AppCompatActivity() {
 
         binding.BtnSms.setOnClickListener {
             if (ContextCompat.checkSelfPermission(applicationContext,
-                    android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                 val numTel = telVendedor
                 if (numTel.isEmpty()){
                     Toast.makeText(this@DetalleAnuncio,
@@ -261,12 +261,9 @@ class DetalleAnuncio : AppCompatActivity() {
                     }
                 }
 
+                // Error loading ad info
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@DetalleAnuncio,
-                        "Error al cargar información del anuncio: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Error loading ad info
                 }
             })
 
@@ -344,12 +341,9 @@ class DetalleAnuncio : AppCompatActivity() {
 
                 }
 
+                // Error loading seller info
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@DetalleAnuncio,
-                        "Error al cargar información del vendedor: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Error loading seller info
                 }
             })
 
@@ -378,12 +372,9 @@ class DetalleAnuncio : AppCompatActivity() {
 
                 }
 
+                // Error loading ad images
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@DetalleAnuncio,
-                        "Error al cargar imágenes: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Error loading ad images
                 }
             })
     }
@@ -404,8 +395,9 @@ class DetalleAnuncio : AppCompatActivity() {
                     }
                 }
 
+                // Error checking favorite status
                 override fun onCancelled(error: DatabaseError) {
-                    // No se hace nada específico aquí para favoritos
+                    // Error checking favorite status
                 }
             })
     }

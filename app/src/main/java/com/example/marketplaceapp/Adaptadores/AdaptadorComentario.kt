@@ -118,7 +118,7 @@ class AdaptadorComentario : RecyclerView.Adapter<AdaptadorComentario.HolderComen
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading user info
                 }
             })
     }

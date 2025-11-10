@@ -193,11 +193,7 @@ class FragmentInicio : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    context,
-                    "Error al cargar anuncios: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                // Error loading ads
             }
         })
     }

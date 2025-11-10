@@ -58,10 +58,18 @@ class ChatActivity : AppCompatActivity() {
         progressDialog.setTitle("Espere por favor")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        uidVendedor = intent.getStringExtra("uidVendedor")!!
-        miUid = firebaseAuth.uid!!
+        uidVendedor = intent.getStringExtra("uidVendedor") ?: ""
+        miUid = firebaseAuth.uid ?: ""
+        
+        if (uidVendedor.isEmpty() || miUid.isEmpty()) {
+            Toast.makeText(this, "Error: Usuario no válido", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         chatRuta = Constantes.rutaChat(uidVendedor, miUid)
+        
+        android.util.Log.d("ChatActivity", "Chat iniciado - Vendedor: $uidVendedor, Mi UID: $miUid, Ruta: $chatRuta")
 
         cargarMiInformacion()
         cargarInfoVendedor()
@@ -90,11 +98,7 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@ChatActivity,
-                        "Error al cargar información: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    android.util.Log.e("ChatActivity", "Error al cargar mi información: ${error.message}")
                 }
             })
     }
@@ -106,29 +110,34 @@ class ChatActivity : AppCompatActivity() {
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     mensajeArrayList.clear()
+                    android.util.Log.d("ChatActivity", "Mensajes encontrados: ${snapshot.childrenCount}")
+                    
                     for (ds : DataSnapshot in snapshot.children){
                         try {
                             val modeloChat = ds.getValue(ModeloChat::class.java)
-                            mensajeArrayList.add(modeloChat!!)
+                            if (modeloChat != null) {
+                                mensajeArrayList.add(modeloChat)
+                            }
                         }catch (e:Exception){
-
+                            android.util.Log.e("ChatActivity", "Error al parsear mensaje: ${e.message}")
                         }
                     }
+                    
                     val adaptadorChat = AdaptadorChat(this@ChatActivity, mensajeArrayList)
                     binding.chatsRv.adapter = adaptadorChat
 
                     binding.chatsRv.setHasFixedSize(true)
-                    var linearLayoutManeger = LinearLayoutManager(this@ChatActivity)
-                    linearLayoutManeger.stackFromEnd = true
-                    binding.chatsRv.layoutManager = linearLayoutManeger
+                    val linearLayoutManager = LinearLayoutManager(this@ChatActivity)
+                    linearLayoutManager.stackFromEnd = true
+                    binding.chatsRv.layoutManager = linearLayoutManager
+                    
+                    if (mensajeArrayList.size > 0) {
+                        binding.chatsRv.scrollToPosition(mensajeArrayList.size - 1)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@ChatActivity,
-                        "Error al cargar mensajes: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    android.util.Log.e("ChatActivity", "Error al cargar mensajes: ${error.message}")
                 }
             })
     }
@@ -140,6 +149,7 @@ class ChatActivity : AppCompatActivity() {
         if (mensaje.isEmpty()){
             Toast.makeText(this,"Ingrese un mensaje",Toast.LENGTH_SHORT).show()
         }else{
+            binding.EtMensajeChat.setText("")
             enviarMensaje(Constantes.MENSAJE_TIPO_TEXTO, mensaje, tiempo)
         }
     }
@@ -174,11 +184,7 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(
-                        this@ChatActivity,
-                        "Error al cargar información del vendedor: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    android.util.Log.e("ChatActivity", "Error al cargar información del vendedor: ${error.message}")
                 }
             })
     }
@@ -333,21 +339,25 @@ class ChatActivity : AppCompatActivity() {
         hashMap["receptorUid"] = "$uidVendedor"
         hashMap["tiempo"] = tiempo
 
+        android.util.Log.d("ChatActivity", "Enviando mensaje a ruta: $chatRuta con ID: $keyId")
+
         refChat.child(chatRuta)
             .child(keyId)
             .setValue(hashMap)
             .addOnSuccessListener {
                 progressDialog.dismiss()
-                binding.EtMensajeChat.setText("")
 
                 if (tipoMensaje == Constantes.MENSAJE_TIPO_TEXTO){
                     prepararNotificacion(mensaje)
                 }else{
                     prepararNotificacion("Se envió una imagen")
                 }
+                
+                android.util.Log.d("ChatActivity", "Mensaje enviado exitosamente")
             }
             .addOnFailureListener {e->
                 progressDialog.dismiss()
+                android.util.Log.e("ChatActivity", "Error al enviar mensaje: ${e.message}")
                 Toast.makeText(
                     this,
                     "No se pudo enviar el mensaje debido a ${e.message}",
@@ -372,36 +382,34 @@ class ChatActivity : AppCompatActivity() {
         }catch (e: Exception){
 
         }
-
+        
         enviarNotificacion(notificationJo)
     }
 
     private fun enviarNotificacion(notificationJo: JSONObject) {
         val jsonObjectRequest : JsonObjectRequest = object  : JsonObjectRequest(
             Method.POST,
-            Constantes.BACKEND_NOTIFICATION_URL, // Usar el nuevo endpoint del backend
+            "https://fcm.googleapis.com/fcm/send",
             notificationJo,
             Response.Listener {
-                //Notificación enviada exitosamente
+                //Notificación enviada
             },
             Response.ErrorListener { e->
-                //Error al enviar notificación
-                Toast.makeText(
-                    this,
-                    "Error al enviar notificación: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                //Notificación no se envió
             }
         ){
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Content-Type"] = "application/json"
+                headers["Authorization"] = "key=${Constantes.FCM_SERVER_KEY}"
                 return headers
             }
         }
 
         Volley.newRequestQueue(this).add(jsonObjectRequest)
+
     }
+
 
     private fun actualizarEstado(estado : String){
         val ref = FirebaseDatabase.getInstance().reference.child("Usuarios").child(firebaseAuth.uid!!)

@@ -72,7 +72,8 @@ class Eliminar_cuenta : AppCompatActivity() {
                         }
 
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
+                            progressDialog.dismiss()
+                            Toast.makeText(this@Eliminar_cuenta, "Error al eliminar anuncios: ${error.message}",Toast.LENGTH_SHORT).show()
                         }
                     })
             }
@@ -80,9 +81,6 @@ class Eliminar_cuenta : AppCompatActivity() {
                 progressDialog.dismiss()
                 Toast.makeText(this, "${e.message}",Toast.LENGTH_SHORT).show()
             }
-
-
-
     }
 
     private fun irMainActivity(){

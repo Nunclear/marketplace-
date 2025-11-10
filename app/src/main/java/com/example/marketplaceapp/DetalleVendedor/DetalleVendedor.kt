@@ -68,7 +68,7 @@ class DetalleVendedor : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading seller ads
                 }
             })
     }
@@ -99,7 +99,7 @@ class DetalleVendedor : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading seller info
                 }
             })
     }

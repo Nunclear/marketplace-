@@ -68,8 +68,9 @@ class Comentarios : AppCompatActivity() {
                     binding.RvComentarios.adapter = adaptadorComentario
                 }
 
+                // Error loading comments
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    // Error loading comments
                 }
             })
     }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -25,6 +26,10 @@ class OpcionesLogin : AppCompatActivity() {
     private lateinit var mGoogleSignInClient : GoogleSignInClient
     private lateinit var progressDialog : ProgressDialog
 
+    private companion object {
+        private const val TAG = "OpcionesLogin"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOpcionesLoginBinding.inflate(layoutInflater)
@@ -37,12 +42,19 @@ class OpcionesLogin : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         comprobarSesion()
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+        try {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error configurando Google Sign In: ${e.message}", e)
+            Toast.makeText(this, 
+                "Error al configurar Google Sign In. Verifica tu configuración.", 
+                Toast.LENGTH_LONG).show()
+        }
 
         binding.IngresarEmail.setOnClickListener {
             startActivity(Intent(this@OpcionesLogin, Login_email::class.java))
@@ -54,8 +66,15 @@ class OpcionesLogin : AppCompatActivity() {
     }
 
     private fun googleLogin() {
-        val googleSignInIntent = mGoogleSignInClient.signInIntent
-        googleSignInARL.launch(googleSignInIntent)
+        try {
+            val googleSignInIntent = mGoogleSignInClient.signInIntent
+            googleSignInARL.launch(googleSignInIntent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error al iniciar Google Sign In: ${e.message}", e)
+            Toast.makeText(this, 
+                "Error al iniciar sesión con Google: ${e.message}", 
+                Toast.LENGTH_SHORT).show()
+        }
     }
 
     private val googleSignInARL = registerForActivityResult(
@@ -65,26 +84,52 @@ class OpcionesLogin : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val cuenta = task.getResult(ApiException::class.java)
-                autenticacionGoogle(cuenta.idToken)
+                if (cuenta.idToken != null) {
+                    autenticacionGoogle(cuenta.idToken)
+                } else {
+                    Log.e(TAG, "idToken es null")
+                    Toast.makeText(this, 
+                        "Error: No se pudo obtener el token de Google", 
+                        Toast.LENGTH_SHORT).show()
+                }
             }catch (e:Exception){
-                Toast.makeText(this, "${e.message}",Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Error en Google Sign In: ${e.message}", e)
+                Toast.makeText(this, 
+                    "Error al iniciar sesión: ${e.message}",
+                    Toast.LENGTH_SHORT).show()
             }
+        } else {
+            Log.w(TAG, "Google Sign In cancelado o falló")
+            Toast.makeText(this, "Inicio de sesión cancelado", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun autenticacionGoogle(idToken: String?) {
+        if (idToken == null) {
+            Toast.makeText(this, "Error: Token inválido", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        progressDialog.setMessage("Autenticando con Google...")
+        progressDialog.show()
+        
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnSuccessListener {resultadoAuth->
                 if (resultadoAuth.additionalUserInfo!!.isNewUser){
                     llenarInfoBD()
                 }else{
+                    progressDialog.dismiss()
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
                 }
             }
             .addOnFailureListener { e->
-                Toast.makeText(this, "${e.message}",Toast.LENGTH_SHORT).show()
+                progressDialog.dismiss()
+                Log.e(TAG, "Error en autenticación Firebase: ${e.message}", e)
+                Toast.makeText(this, 
+                    "Error de autenticación: ${e.message}",
+                    Toast.LENGTH_SHORT).show()
             }
     }
 

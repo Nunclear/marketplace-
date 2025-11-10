@@ -37,6 +37,7 @@ class SeleccionarUbicacion : AppCompatActivity() , OnMapReadyCallback {
 
     private companion object{
         private const val DEFAULT_ZOOM = 15
+        private const val TAG = "SeleccionarUbicacion"
     }
 
     private var mMap : GoogleMap?=null
@@ -59,38 +60,52 @@ class SeleccionarUbicacion : AppCompatActivity() , OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.MapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        Places.initialize(this, getString(R.string.mi_google_maps_api_key))
+        try {
+            if (!Places.isInitialized()) {
+                Places.initialize(this, getString(R.string.mi_google_maps_api_key))
+            }
+            mPlaceClient = Places.createClient(this)
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error al inicializar Places: ${e.message}", e)
+            Toast.makeText(this, 
+                "Error al inicializar el mapa. Verifica tu API Key de Google Maps", 
+                Toast.LENGTH_LONG).show()
+        }
 
-        mPlaceClient = Places.createClient(this)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        val autocompleteSupportMapFragment = supportFragmentManager.findFragmentById(R.id.autocompletar_fragment)
-        as AutocompleteSupportFragment
+        try {
+            val autocompleteSupportMapFragment = supportFragmentManager.findFragmentById(R.id.autocompletar_fragment)
+                    as AutocompleteSupportFragment
 
-        val placeList = arrayOf(
-            Place.Field.ID,
-            Place.Field.NAME,
-            Place.Field.ADDRESS,
-            Place.Field.LAT_LNG)
+            val placeList = arrayOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG)
 
-        autocompleteSupportMapFragment.setPlaceFields(listOf(*placeList))
+            autocompleteSupportMapFragment.setPlaceFields(listOf(*placeList))
 
-        autocompleteSupportMapFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener{
-            override fun onPlaceSelected(place: Place) {
-                val id = place.id
-                val name = place.name
-                val latlng = place.latLng
+            autocompleteSupportMapFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener{
+                override fun onPlaceSelected(place: Place) {
+                    val id = place.id
+                    val name = place.name
+                    val latlng = place.latLng
 
-                selectedLatitude = latlng?.latitude
-                selectedLongitude = latlng?.longitude
-                direccion = place.address?: ""
+                    selectedLatitude = latlng?.latitude
+                    selectedLongitude = latlng?.longitude
+                    direccion = place.address?: ""
 
-                agregarMarcador(latlng, name, direccion)
-            }
-            override fun onError(p0: Status) {
-                Toast.makeText(applicationContext,"Búsqueda cancelada",Toast.LENGTH_SHORT).show()
-            }
-        })
+                    agregarMarcador(latlng, name, direccion)
+                }
+                override fun onError(p0: Status) {
+                    android.util.Log.e(TAG, "Error en búsqueda: ${p0.statusMessage}")
+                    Toast.makeText(applicationContext,"Error en búsqueda: ${p0.statusMessage}",Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error al configurar autocomplete: ${e.message}", e)
+        }
 
         binding.IbGsp.setOnClickListener {
             if (esGpsActivado()){
@@ -133,13 +148,82 @@ class SeleccionarUbicacion : AppCompatActivity() , OnMapReadyCallback {
                     mMap!!.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM.toFloat()))
 
                     direccionLatLng(latLng)
+                } else {
+                    android.util.Log.w(TAG, "Location es null")
+                    Toast.makeText(this, 
+                        "No se pudo obtener la ubicación actual", 
+                        Toast.LENGTH_SHORT).show()
                 }
 
             }.addOnFailureListener { e->
-
+                android.util.Log.e(TAG, "Error al obtener ubicación: ${e.message}", e)
+                Toast.makeText(this, 
+                    "Error al obtener ubicación: ${e.message}", 
+                    Toast.LENGTH_SHORT).show()
             }
         }catch (e:Exception){
+            android.util.Log.e(TAG, "Exception en detectAndShowDeviceLocationMap: ${e.message}", e)
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        if (mMap != null) {
+            solicitarPermisoLocacion.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            mMap!!.setOnMapClickListener {latlng->
+                selectedLatitude = latlng.latitude
+                selectedLongitude = latlng.longitude
+
+                direccionLatLng(latlng)
+            }
+        } else {
+            android.util.Log.e(TAG, "mMap es null en onMapReady")
+            Toast.makeText(this, "Error al cargar el mapa", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun direccionLatLng(latlng: LatLng) {
+        val geoCoder = Geocoder(this)
+        try {
+            val addressList = geoCoder.getFromLocation(latlng.latitude, latlng.longitude,1)
+            if (addressList != null && addressList.isNotEmpty()) {
+                val address = addressList[0]
+                val addressLine = address.getAddressLine(0)
+                val subLocality = address.subLocality
+                direccion= "$addressLine"
+                agregarMarcador(latlng,"$subLocality","$addressLine")
+            } else {
+                Toast.makeText(this, "No se pudo obtener la dirección", Toast.LENGTH_SHORT).show()
+            }
+        }catch (e:Exception){
+            android.util.Log.e(TAG, "Error en direccionLatLng: ${e.message}", e)
+            Toast.makeText(this, "Error al obtener dirección: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun agregarMarcador(latlng: LatLng?, titulo : String, direccion : String){
+        if (latlng == null) {
+            Toast.makeText(this, "Ubicación inválida", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        mMap!!.clear()
+        try {
+            val markerOptions = MarkerOptions()
+            markerOptions.position(latlng)
+            markerOptions.title("$titulo")
+            markerOptions.snippet("$direccion")
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+
+            mMap!!.addMarker(markerOptions)
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM.toFloat()))
+
+            binding.listoLl.visibility = View.VISIBLE
+            binding.lugarSelecTv.text = direccion
+        }catch (e:Exception){
+            android.util.Log.e(TAG, "Error al agregar marcador: ${e.message}", e)
+            Toast.makeText(this, "Error al agregar marcador: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -172,50 +256,5 @@ class SeleccionarUbicacion : AppCompatActivity() , OnMapReadyCallback {
                 Toast.makeText(this,"Permiso denegado",Toast.LENGTH_SHORT).show()
             }
         }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        solicitarPermisoLocacion.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        mMap!!.setOnMapClickListener {latlng->
-            selectedLatitude = latlng.latitude
-            selectedLongitude = latlng.longitude
-
-            direccionLatLng(latlng)
-        }
-
-    }
-
-    private fun direccionLatLng(latlng: LatLng) {
-        val geoCoder = Geocoder(this)
-        try {
-            val addressList = geoCoder.getFromLocation(latlng.latitude, latlng.longitude,1)
-            val address = addressList!![0]
-            val addressLine = address.getAddressLine(0)
-            val subLocality = address.subLocality
-            direccion= "$addressLine"
-            agregarMarcador(latlng,"$subLocality","$addressLine")
-        }catch (e:Exception){
-
-        }
-    }
-
-    private fun agregarMarcador(latlng: LatLng, titulo : String, direccion : String){
-        mMap!!.clear()
-        try {
-            val markerOptions = MarkerOptions()
-            markerOptions.position(latlng)
-            markerOptions.title("$titulo")
-            markerOptions.snippet("$direccion")
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-
-            mMap!!.addMarker(markerOptions)
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM.toFloat()))
-
-            binding.listoLl.visibility = View.VISIBLE
-            binding.lugarSelecTv.text = direccion
-        }catch (e:Exception){
-
-        }
-    }
 
 }

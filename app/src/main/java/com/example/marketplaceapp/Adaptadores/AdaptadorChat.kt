@@ -83,7 +83,7 @@ class AdaptadorChat : RecyclerView.Adapter<AdaptadorChat.HolderChat>{
                     val opciones = arrayOf<CharSequence>("Eliminar mensaje", "Cancelar")
                     val builder : AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
                     builder.setTitle("¿Qué desea realizar?")
-                    builder.setItems(opciones , DialogInterface.OnClickListener{dialogInterface, i ->
+                    builder.setItems(opciones , DialogInterface.OnClickListener{ _, i ->
                         if (i == 0){
                             EliminarMensaje(position, holder , modeloChat)
                         }
@@ -115,7 +115,7 @@ class AdaptadorChat : RecyclerView.Adapter<AdaptadorChat.HolderChat>{
                     val opciones = arrayOf<CharSequence>("Eliminar imagen", "Ver imagen completa", "Cancelar")
                     val builder : AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
                     builder.setTitle("¿Qué desea realizar?")
-                    builder.setItems(opciones, DialogInterface.OnClickListener { dialogInterface, i ->
+                    builder.setItems(opciones, DialogInterface.OnClickListener { _, i ->
                         if (i == 0){
                             EliminarMensaje(position, holder, modeloChat)
                         }else if (i == 1){
@@ -132,7 +132,7 @@ class AdaptadorChat : RecyclerView.Adapter<AdaptadorChat.HolderChat>{
                     val opciones = arrayOf<CharSequence>("Ver imagen completa", "Cancelar")
                     val builder : AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
                     builder.setTitle("¿Qué desea realizar?")
-                    builder.setItems(opciones, DialogInterface.OnClickListener { dialogInterface, i ->
+                    builder.setItems(opciones, DialogInterface.OnClickListener { _, i ->
                         if (i == 0){
                             visualizadorImagen(modeloChat.mensaje)
                         }

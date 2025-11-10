@@ -20,11 +20,13 @@ object Constantes {
     const val MENSAJE_TIPO_TEXTO = "TEXTO"
     const val MENSAJE_TIPO_IMAGEN = "IMAGEN"
 
+
     const val anuncio_disponible = "Disponible"
     const val anuncio_vendido = "Vendido"
 
     const val NOTIFICACION_DE_NUEVO_MENSAJE = "NOTIFICACION_DE_NUEVO_MENSAJE"
-    const val BACKEND_NOTIFICATION_URL = "http://tu-servidor.com/send-notification" // Cambiar por tu URL de servidor
+    const val FCM_SERVER_KEY =
+        "AAAAESoUZA0:APA91bFpSSXr9G0_8U0r-_xLjMk97cncaDcwWva_9hy-yKoQFDvEFBvgS6wb-EibhkUbWhxH5RgMOHQeWdIMt0fbXuVbAUxgNLwN4v4_fM5YAs9yxF6scuxJoHSTemz4Eidi-x-2roJ-"
 
     val categorias = arrayOf(
         "Todos",
@@ -181,7 +183,7 @@ object Constantes {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // No se hace nada específico aquí, el incremento de vistas no es crítico
+                    // Error incrementing views
                 }
             })
     }
