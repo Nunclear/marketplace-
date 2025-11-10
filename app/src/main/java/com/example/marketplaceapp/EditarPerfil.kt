@@ -167,11 +167,35 @@ class EditarPerfil : AppCompatActivity() {
     }
 
     private fun subirImagenStorage(){
+        if (imageUri == null) {
+            Toast.makeText(this, "No hay imagen seleccionada", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val user = firebaseAuth.currentUser
+        if (user == null) {
+            Toast.makeText(this, "Usuario no autenticado. Inicie sesión.", Toast.LENGTH_SHORT).show()
+            return
+        }
         progressDialog.setMessage("Subiendo imagen a Storage")
         progressDialog.show()
 
-        val rutaImagen = "imagenesPerfil/" + firebaseAuth.uid
+        val uid = user.uid
+        val rutaImagen = "Perfil/$uid/profile.jpg" // <- importante: coincide con tus reglas
         val ref = FirebaseStorage.getInstance().getReference(rutaImagen)
+
+        // Opcional: añade metadata con ownerUid si tus reglas la usan en el futuro
+        val metadata = com.google.firebase.storage.StorageMetadata.Builder()
+            .setCustomMetadata("ownerUid", uid)
+            .build()
+
+        user.getIdToken(true).addOnCompleteListener { tokentask ->
+            if (!tokentask.isSuccessful) {
+            Toast.makeText(this, "Error al obtener el token", Toast.LENGTH_SHORT).show()
+            return@addOnCompleteListener
+            }
+        }
+
         ref.putFile(imageUri!!)
             .addOnSuccessListener { taskSnapShot->
                 val uriTask = taskSnapShot.storage.downloadUrl
