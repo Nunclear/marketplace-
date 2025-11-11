@@ -78,29 +78,25 @@ class OpcionesLogin : AppCompatActivity() {
     }
 
     private val googleSignInARL = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()){resultado->
-        if (resultado.resultCode == RESULT_OK){
-            val data = resultado.data
+        ActivityResultContracts.StartActivityForResult()
+    ) { resultado ->
+        val data = resultado.data
+        try {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val cuenta = task.getResult(ApiException::class.java)
-                if (cuenta.idToken != null) {
-                    autenticacionGoogle(cuenta.idToken)
-                } else {
-                    Log.e(TAG, "idToken es null")
-                    Toast.makeText(this, 
-                        "Error: No se pudo obtener el token de Google", 
-                        Toast.LENGTH_SHORT).show()
-                }
-            }catch (e:Exception){
-                Log.e(TAG, "Error en Google Sign In: ${e.message}", e)
-                Toast.makeText(this, 
-                    "Error al iniciar sesión: ${e.message}",
-                    Toast.LENGTH_SHORT).show()
+            val cuenta = task.getResult(ApiException::class.java)
+            if (cuenta?.idToken != null) {
+                autenticacionGoogle(cuenta.idToken)
+            } else {
+                Log.e(TAG, "idToken es null")
+                Toast.makeText(this, "Error: No se pudo obtener el token de Google", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Log.w(TAG, "Google Sign In cancelado o falló")
-            Toast.makeText(this, "Inicio de sesión cancelado", Toast.LENGTH_SHORT).show()
+        } catch (apiEx: ApiException) {
+            // <-- línea importante para diagnóstico
+            Log.e(TAG, "Google Sign In failed. statusCode=${apiEx.statusCode}, message=${apiEx.message}", apiEx)
+            Toast.makeText(this, "Inicio de sesión falló (code=${apiEx.statusCode})", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error desconocido en Google Sign In: ${e.message}", e)
+            Toast.makeText(this, "Error al iniciar sesión: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
